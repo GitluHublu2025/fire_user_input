@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from io import BytesIO
 
-st.set_page_config(page_title="FIRE Estimator - Sliders", layout="wide")
+st.set_page_config(page_title="FIRE Estimator - User Sliders", layout="wide")
 st.title("FIRE Estimator — Interactive Sliders")
 
 # --- Sidebar: basic controls ---
 st.sidebar.header("Controls")
 start_year = st.sidebar.number_input("Start Year", value=2025, min_value=2023, max_value=2040, step=1)
-start_age = st.sidebar.number_input("Age as on Start Year", value=52, min_value=18, max_value=100, step=1)
+start_age = st.sidebar.number_input("Age as on Start Year", value=40, min_value=18, max_value=100, step=1)
 end_age = st.sidebar.number_input("Life Expectancy (Age)", value=80, min_value=start_age+1, max_value=120, step=1)
 buffer_inr = st.sidebar.number_input("FIRE Buffer (INR)", value=5_000_000, min_value=0, step=100000)
 
@@ -21,8 +21,8 @@ st.header("Inputs (grouped)")
 
 with st.expander("Basis"):
     st.write("Rates, inflation, FX, rental baseline")
-    rental_monthly_upto_2035 = st.number_input("Rental monthly upto 2035 (INR)", value=50000, step=1000)
-    rental_monthly_after_2035 = st.number_input("Rental monthly after 2035 (INR)", value=70000, step=1000)
+    rental_monthly_upto_2035 = st.number_input("Rental monthly upto 2035 (INR)", value=20000, step=1000)
+    rental_monthly_after_2035 = st.number_input("Rental monthly after 2035 (INR)", value=30000, step=1000)
     rental_increase = st.number_input("Rental increase % per year", value=2.5, step=0.1) / 100.0
     inflation_india = st.number_input("Indian inflation %", value=10.0, step=0.1) / 100.0
     inflation_us = st.number_input("US inflation %", value=3.0, step=0.1) / 100.0
@@ -41,14 +41,14 @@ with st.expander("Basis"):
 
 with st.expander("Investments"):
     st.write("Initial balances (INR unless USD specified)")
-    bond_india = st.number_input("Bond India (INR)", value=9_000_000, step=10000)
-    sbi_locked = st.number_input("SBI locked (INR) — locked until year", value=3_800_000, step=10000)
-    sbi_lock_until = st.number_input("SBI unlocked year", value=2045, step=1)
+    bond_india = st.number_input("Bond India (INR)", value=1_000_000, step=10000)
+    sbi_locked = st.number_input("Bank locked (INR) — locked until year", value=1_000_000, step=10000)
+    sbi_lock_until = st.number_input("Bank unlocked year", value=2045, step=1)
     fd_india = st.number_input("Fixed Deposit India (INR)", value=1_000_000, step=1000)
     mf_india = st.number_input("Mutual Fund India (INR)", value=1_000_000, step=1000)
-    stocks_india = st.number_input("Indian Stocks & ETF (INR)", value=2_000_000, step=1000)
-    us_stocks_usd = st.number_input("US Stocks & ETF (USD)", value=60_000, step=100)
-    us_fd_usd = st.number_input("US Fixed Deposit (USD)", value=37_000, step=100)
+    stocks_india = st.number_input("Indian Stocks & ETF (INR)", value=1_000_000, step=1000)
+    us_stocks_usd = st.number_input("US Stocks & ETF (USD)", value=10_000, step=100)
+    us_fd_usd = st.number_input("US Fixed Deposit (USD)", value=10_000, step=100)
     us_bonds_usd = st.number_input("US Bonds (USD)", value=1_000, step=10)
 
 with st.expander("Expenditure"):
@@ -62,15 +62,15 @@ with st.expander("Expenditure"):
     st.subheader("One-time expenses (enter year and amount)")
     # We'll allow the user to edit a JSON list of one-time events
     default_one_time = [
-        {"year":2026,"label":"College Fees","amount_inr":600000},
-        {"year":2027,"label":"College Fees","amount_inr":600000},
-        {"year":2028,"label":"College Fees","amount_inr":600000},
-        {"year":2029,"label":"College Fees","amount_inr":600000},
-        {"year":2030,"label":"US prep & Application","amount_inr":300000},
-        {"year":2030,"label":"US College Fees","amount_usd":50000},
-        {"year":2031,"label":"US College Fees","amount_usd":50000},
-        {"year":2035,"label":"Car","amount_inr":1500000},
-        {"year":2036,"label":"Kartik Marriage","amount_inr":3000000},
+        {"year":2026,"label":"College Fees","amount_inr":100000},
+        {"year":2027,"label":"College Fees","amount_inr":100000},
+        {"year":2028,"label":"College Fees","amount_inr":100000},
+        {"year":2029,"label":"College Fees","amount_inr":100000},
+        {"year":2030,"label":"Abroad prep & Application","amount_inr":100000},
+        {"year":2030,"label":"Abroad College Fees","amount_usd":50000},
+        {"year":2031,"label":"Abroad College Fees","amount_usd":50000},
+        {"year":2035,"label":"New Car Buying","amount_inr":1500000},
+        {"year":2036,"label":"Marriage Expense","amount_inr":1500000},
     ]
     one_time_json = st.text_area("One-time events JSON (each event: year,label,amount_inr or amount_usd)",
                                 value=str(default_one_time), height=200)
@@ -325,4 +325,4 @@ fig.savefig(buf, format='png', bbox_inches='tight')
 buf.seek(0)
 st.download_button("Download Chart PNG", data=buf, file_name="portfolio_chart.png", mime="image/png")
 
-st.markdown("**Notes:** This model uses simplified tax and withdrawal rules and assumes deterministic returns. Use for planning and sensitivity checks, not as financial advice.")
+st.markdown("**Notes:** This model uses simplified tax and withdrawal rules and assumes deterministic returns. Use for planning and sensitivity checks, not as financial advice Program developed by Sathish PT.")
